@@ -40,34 +40,36 @@ public class Cadastro extends javax.swing.JFrame {
         cadastroSenha = new javax.swing.JPasswordField();
         jLabel11 = new javax.swing.JLabel();
         cadastroBotaoLogin = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 48)); // NOI18N
         jLabel1.setText("CADASTRO");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, -1, 50));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, -1, 50));
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(78, 140, 37, -1));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel3.setText("NOME:");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 380, 80, 40));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 110, 80, 40));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel7.setText("USUARIO:");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 460, -1, 40));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 150, 120, 40));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel8.setText("SENHA:");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 540, -1, 40));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 190, -1, 40));
 
         cadastroNome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel1.add(cadastroNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 390, 540, -1));
+        jPanel1.add(cadastroNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 120, 540, -1));
 
         cadastroUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel1.add(cadastroUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 470, 540, -1));
+        jPanel1.add(cadastroUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 160, 540, -1));
 
         cadastroBotaoCadastrar.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         cadastroBotaoCadastrar.setText("CADASTRAR");
@@ -76,35 +78,56 @@ public class Cadastro extends javax.swing.JFrame {
                 cadastroBotaoCadastrarActionPerformed(evt);
             }
         });
-        jPanel1.add(cadastroBotaoCadastrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 700, -1, 50));
+        jPanel1.add(cadastroBotaoCadastrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 320, -1, 50));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel12.setText("FINALIZAR O CADASTRO:");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 630, -1, 40));
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 260, -1, 40));
 
         cadastroSenha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jPanel1.add(cadastroSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 550, 540, -1));
+        jPanel1.add(cadastroSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 200, 540, -1));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel11.setText("VOLTAR AO LOGIN:");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 630, 230, 40));
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 260, 230, 40));
 
         cadastroBotaoLogin.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         cadastroBotaoLogin.setText("LOGIN");
-        jPanel1.add(cadastroBotaoLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 700, 150, 50));
+        jPanel1.add(cadastroBotaoLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 320, 150, 50));
+
+        jPanel2.setBackground(new java.awt.Color(255, 0, 0));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel4.setText("Seja Bem Vindo");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(45, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addContainerGap(744, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 340, 810));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1132, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1046, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 814, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -201,8 +224,10 @@ public class Cadastro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }
