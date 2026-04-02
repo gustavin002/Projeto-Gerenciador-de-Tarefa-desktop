@@ -4,97 +4,97 @@
  */
 package view;
 
-import javax.swing.*;
-import javax.swing.table.*;
-import java.util.ArrayList;
-import java.util.List;
-import model.UsuarioBean;
+import javax.swing.*; // Importa componentes gráficos (JFrame, JButton, etc)
+import javax.swing.table.*; // Importa classes de tabela
+import java.util.ArrayList; // Lista dinâmica
+import java.util.List; // Interface de lista
+import model.UsuarioBean; // Importa UsuarioBean usada para armazenar os dados do usuário logado
 
 public class Inicio extends javax.swing.JFrame {
 
-    private DefaultTableModel modelo;
-    private TableRowSorter<DefaultTableModel> sorter;
-    private UsuarioBean usuarioLogado;
+    private DefaultTableModel modelo;  // Modelo da tabela (dados)
+    private TableRowSorter<DefaultTableModel> sorter; // Responsável por ordenar e filtrar a tabela
+    private UsuarioBean usuarioLogado; // Guarda o usuário que fez login
 
     public Inicio(UsuarioBean usuario) {
-        this.usuarioLogado = usuario;
+        this.usuarioLogado = usuario; // Armazena o usuário logado
         initComponents();
         configurarTabela();// Configura a tabela com dados iniciais
-        setLocationRelativeTo(null);// Centraliza a janela na tela
     }
     // Método para configurar a tabela com dados e sorter
     private void configurarTabela() {
-        modelo = (DefaultTableModel) jTable1.getModel();
-        modelo.setRowCount(0); 
-        sorter = new TableRowSorter<>(modelo);
-        jTable1.setRowSorter(sorter);
+        modelo = (DefaultTableModel) jTable1.getModel(); // Pega o modelo da tabela
+        modelo.setRowCount(0);
+        sorter = new TableRowSorter<>(modelo); // Cria o sorter para ordenação e filtro
+        jTable1.setRowSorter(sorter); // Aplica o sorter na tabela
 
-        modelo.addRow(new Object[]{1, "Comprar materiais", "Papel e canetas", "João", "pendente"});
-        modelo.addRow(new Object[]{2, "Reunião clientes", "Apresentação do projeto", "Matheus", "em andamento"});
-        modelo.addRow(new Object[]{3, "Atualizar site", "Corrigir layout", "Luiz", "concluido"});
+        modelo.addRow(new Object[]{1, "Comprar materiais", "Papel e canetas", "João", "Pendente"});
+        modelo.addRow(new Object[]{2, "Reunião clientes", "Apresentar o projeto", "Matheus", "Em andamento"});
+        modelo.addRow(new Object[]{3, "Atualizar site", "Corrigir layout", "Luiz", "Concluido"});
+        modelo.addRow(new Object[]{4, "Enviar relatório", "Para o financeiro", "Gustavo", "Concluido"});
     }
     // Método para filtrar a tabela de acordo com status e responsável
     private void filtrarTabela() {
-        List<RowFilter<Object, Object>> filtros = new ArrayList<>();
-        String status = inicioFiltroStatus.getSelectedItem().toString();
-        String responsavel = inicioFiltroResponsavel.getSelectedItem().toString();
+        List<RowFilter<Object, Object>> filtros = new ArrayList<>(); // Lista de filtros
+        String status = inicioFiltroStatus.getSelectedItem().toString(); // Pega status selecionado
+        String responsavel = inicioFiltroResponsavel.getSelectedItem().toString(); // Pega responsável selecionado
 
+        // Se o status não for "Todos", adiciona filtro por status (coluna 4)
         if (!status.equalsIgnoreCase("Todos")) {
             filtros.add(RowFilter.regexFilter("(?i)" + status, 4));
         }
+        
+        // Se o responsável não for "Todos", adiciona filtro por responsável (coluna 3)
         if (!responsavel.equalsIgnoreCase("Todos")) {
             filtros.add(RowFilter.regexFilter("(?i)" + responsavel, 3));
         }
-
-        RowFilter<Object, Object> rf = filtros.isEmpty() ? null : RowFilter.andFilter(filtros);
-        sorter.setRowFilter(rf);
+        
+        // Se não houver filtros, mostra tudo
+        if (filtros.isEmpty()) {
+            sorter.setRowFilter(null);
+        // Aplica todos os filtros juntos (AND)
+        } else {
+            sorter.setRowFilter(RowFilter.andFilter(filtros));
+        }
     }
+    
+    // Adiciona uma nova linha na tabela
+    public void adicionarLinhaNaTabela(String titulo, String descricao, String responsavel, String status) {
+    int novoId = modelo.getRowCount() + 1; // Cria ID baseado na quantidade de linhas
+    modelo.addRow(new Object[]{novoId, titulo, descricao, responsavel, status}); // Adiciona nova linha
+}
+    
+    // Retorna o índice da linha selecionada na tabela
+    public int getLinhaSelecionada() {
+    int linha = jTable1.getSelectedRow(); // Pega o índice visual da linha selecionada pelo usuário
+    if (linha >= 0) { // Verifica se alguma linha foi selecionada (valor -1 significa nenhuma)
+        return jTable1.convertRowIndexToModel(linha); // Converte o índice visual para o índice real do modelo (necessário quando a tabela está filtrada ou ordenada)
+    } else {
+        return -1; // Retorna -1 indicando que nenhuma linha está selecionada
+    }
+}
+
+// Retorna o valor de uma célula específica
+public Object getValorCelula(int linha, int coluna) {
+    return modelo.getValueAt(linha, coluna); // Busca e retorna o conteúdo da célula na linha e coluna informadas
+}
+
+// Atualiza os dados de uma linha existente
+public void editarLinhaNaTabela(int linha, String titulo, String descricao, String responsavel, String status) { // Recebe a linha a ser editada e os novos valores
+    modelo.setValueAt(titulo, linha, 1); // Atualiza a coluna TÍTULO (índice 1)
+    modelo.setValueAt(descricao, linha, 2); // Atualiza a coluna DESCRIÇÃO (índice 2)
+    modelo.setValueAt(responsavel, linha, 3); // Atualiza a coluna RESPONSÁVEL (índice 3)
+    modelo.setValueAt(status, linha, 4); // Atualiza a coluna STATUS (índice 4)
+}
     
     private void adicionarTarefa() {
-        
-    String titulo = JOptionPane.showInputDialog(this, "Digite o título:");
-    if (titulo == null) return;
-    titulo = titulo.trim();
-    if (titulo.isEmpty()) return;
-
-    String descricao = JOptionPane.showInputDialog(this, "Digite a descrição:");
-    if (descricao == null) return;
-    descricao = descricao.trim();
-    if (descricao.isEmpty()) return;
-    
-    String responsavel = JOptionPane.showInputDialog(this, "Digite o responsável:");
-    if (responsavel == null) return;
-    responsavel = responsavel.trim();
-    if (responsavel.isEmpty()) return;
-
-    String status = JOptionPane.showInputDialog(this, "Digite o status:");
-    if (status == null) return;
-    status = status.trim();
-    if (status.isEmpty()) return;
-    
-    if (usuarioLogado != null) {
-    responsavel = usuarioLogado.getNome();
-    } else {
-    responsavel = "Não definido";
+        new NovaTarefa(this).setVisible(true); // Abre janela passando a tela atual
     }
-
-    int novoId = 1;
-
-    for (int i = 0; i < modelo.getRowCount(); i++) {
-    int idAtual = (int) modelo.getValueAt(i, 0);
-    if (idAtual >= novoId) {
-        novoId = idAtual + 1;
-    }
-}
     
-    modelo.addRow(new Object[]{
-        novoId, titulo, descricao, responsavel, "pendente"
-    });
-}
-    
+    // Faz logout e volta para tela de login
     private void logout() {
-        new Login().setVisible(true);
-        this.dispose();
+        new Login().setVisible(true); // Abre tela de login
+        this.dispose(); // Fecha a tela atual
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -112,8 +112,6 @@ public class Inicio extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -131,7 +129,7 @@ public class Inicio extends javax.swing.JFrame {
                 inicioLoginBotaoActionPerformed(evt);
             }
         });
-        jPanel1.add(inicioLoginBotao, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 380, -1, 50));
+        jPanel1.add(inicioLoginBotao, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 380, -1, 40));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -144,10 +142,18 @@ public class Inicio extends javax.swing.JFrame {
             new String [] {
                 "ID", "TÍTULO", "DESCRIÇÃO", "RESPONSÁVEL", "STATUS"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 87, 490, 340));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 87, 520, 350));
 
         inicioBotaoNovaTarefa.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         inicioBotaoNovaTarefa.setText("NOVA TAREFA");
@@ -156,7 +162,7 @@ public class Inicio extends javax.swing.JFrame {
                 inicioBotaoNovaTarefaActionPerformed(evt);
             }
         });
-        jPanel1.add(inicioBotaoNovaTarefa, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 170, -1, -1));
+        jPanel1.add(inicioBotaoNovaTarefa, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 170, -1, -1));
 
         inicioBotaoEditar.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         inicioBotaoEditar.setText("EDITAR");
@@ -165,7 +171,7 @@ public class Inicio extends javax.swing.JFrame {
                 inicioBotaoEditarActionPerformed(evt);
             }
         });
-        jPanel1.add(inicioBotaoEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 280, -1, -1));
+        jPanel1.add(inicioBotaoEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 280, -1, -1));
 
         inicioBotaoExcluir.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         inicioBotaoExcluir.setText("EXCLUIR");
@@ -174,7 +180,7 @@ public class Inicio extends javax.swing.JFrame {
                 inicioBotaoExcluirActionPerformed(evt);
             }
         });
-        jPanel1.add(inicioBotaoExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 380, -1, -1));
+        jPanel1.add(inicioBotaoExcluir, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 380, -1, -1));
 
         inicioFiltroStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "pendente", "em andamento", "concluido" }));
         inicioFiltroStatus.addActionListener(new java.awt.event.ActionListener() {
@@ -201,47 +207,19 @@ public class Inicio extends javax.swing.JFrame {
         jLabel4.setText("RESPONSAVEL:");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 80, -1, 30));
 
-        jPanel2.setBackground(new java.awt.Color(255, 0, 0));
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel5.setText("Seja Bem Vindo");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(93, Short.MAX_VALUE)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(jLabel5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1072, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1016, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 810, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void inicioLoginBotaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inicioLoginBotaoActionPerformed
@@ -250,26 +228,28 @@ public class Inicio extends javax.swing.JFrame {
 
     private void inicioBotaoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inicioBotaoEditarActionPerformed
         int linhaSelecionada = jTable1.getSelectedRow();
-        if (linhaSelecionada != -1) {
-            int linhaModelo = jTable1.convertRowIndexToModel(linhaSelecionada);
-            String novoTitulo = JOptionPane.showInputDialog(this, "Editar título:", modelo.getValueAt(linhaModelo, 1));
-        if (novoTitulo != null && !novoTitulo.isBlank()) {
-            modelo.setValueAt(novoTitulo.trim(), linhaModelo, 1);
-        }        
+    
+        if (linhaSelecionada >= 0) {
+        new Editar(this).setVisible(true); //  abre o Editar passando o Inicio
         } else {
-            JOptionPane.showMessageDialog(this, "Selecione uma tarefa para editar!");
+        JOptionPane.showMessageDialog(this, "Selecione uma tarefa para editar!");
         }
     }//GEN-LAST:event_inicioBotaoEditarActionPerformed
 
     private void inicioBotaoExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inicioBotaoExcluirActionPerformed
-        int linhaSelecionada = jTable1.getSelectedRow();
-        if (linhaSelecionada != -1) {
-            int linhaModelo = jTable1.convertRowIndexToModel(linhaSelecionada);
-            if (JOptionPane.showConfirmDialog(this, "Deseja excluir esta tarefa?") == JOptionPane.YES_OPTION) {
-                modelo.removeRow(linhaModelo);
-            }
+       int linhaSelecionada = jTable1.getSelectedRow();// Pega linha selecionada
+       
+        if (linhaSelecionada >= 0) {
+        int linhaModelo = jTable1.convertRowIndexToModel(linhaSelecionada);
+        
+        // Confirmação de exclusão
+        int confirmacao = JOptionPane.showConfirmDialog(this, "Deseja excluir esta tarefa?", "Confirmar exclusão", JOptionPane.YES_NO_OPTION);
+
+        if (confirmacao == JOptionPane.YES_OPTION) {
+            modelo.removeRow(linhaModelo); // Remove linha
+        }
         } else {
-            JOptionPane.showMessageDialog(this, "Selecione uma tarefa para excluir!");
+        JOptionPane.showMessageDialog(this, "Selecione uma tarefa para excluir!");
         }
     }//GEN-LAST:event_inicioBotaoExcluirActionPerformed
 
@@ -296,9 +276,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
